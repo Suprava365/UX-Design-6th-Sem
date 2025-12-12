@@ -17,7 +17,7 @@ UserSchema.pre('save', async function () {
     const salt = await bcrypt.genSalt(10);
     this.password = await bcrypt.hash(this.password, salt);
   } catch (err) {
-    // rethrow so Mongoose knows the save failed and the error bubbles up
+  
     throw err;
   }
 });

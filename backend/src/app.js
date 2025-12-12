@@ -13,6 +13,7 @@ app.use(morgan('dev'));
 
 // API routes
 app.use('/api/auth', authRoutes);
+app.use('/api/user/', appointmentRoutes)
 
 
 app.get('/', (req, res) => res.send('Clinic API is running'));
