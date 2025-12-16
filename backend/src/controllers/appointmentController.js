@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Appointment = require('../models/Appointment');
-const Doctor = require('../models/DoctorA');
+const Doctor = require('../models/Doctor');
 const Patient = require('../models/patient');
 const { createSchema } = require('../validators/appointmentValidator');
 
