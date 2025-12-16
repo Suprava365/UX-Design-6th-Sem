@@ -4,6 +4,7 @@ const morgan = require('morgan');
 const errorHandler = require('./middlewares/errorHandler');
 const patientRoutes = require('./routes/patients');
 const authRoutes = require('./routes/auth');
+const doctorRoutes = require('./routes/doctors');
 
 const app = express();
 
@@ -16,6 +17,8 @@ app.use('/api/auth', authRoutes);
 // app.use('/api/user/', appointmentRoutes)
 app.use('/api/patients', patientRoutes);
 
+
+app.use('/api/doctors', doctorRoutes);
 
 
 app.get('/', (req, res) => res.send('Clinic API is running'));
