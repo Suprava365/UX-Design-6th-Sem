@@ -1,0 +1,57 @@
+{
+  "info": {
+    "name": "Clinic Management - Lab Reports API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Create Lab Report",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"patient\": \"{{patientId}}\",\n  \"doctor\": \"{{doctorId}}\",\n  \"testName\": \"Blood Test\",\n  \"testDate\": \"2025-11-25\",\n  \"status\": \"pending\"\n}"
+        },
+        "url": "{{base_url}}/api/lab-reports"
+      }
+    },
+    {
+      "name": "Get All Lab Reports (Admin)",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "url": "{{base_url}}/api/lab-reports"
+      }
+    },
+    {
+      "name": "Get Patient Lab Reports",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "url": "{{base_url}}/api/lab-reports/patient/{{patientId}}"
+      }
+    },
+    {
+      "name": "Update Lab Report",
+      "request": {
+        "method": "PUT",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"status\": \"completed\",\n  \"result\": \"Normal\"\n}"
+        },
+        "url": "{{base_url}}/api/lab-reports/{{reportId}}"
+      }
+    }
+  ]
+}

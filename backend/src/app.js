@@ -5,6 +5,7 @@ const errorHandler = require('./middlewares/errorHandler');
 const patientRoutes = require('./routes/patients');
 const authRoutes = require('./routes/auth');
 const doctorRoutes = require('./routes/doctors');
+const labReportRoutes = require('./routes/labReports');
 
 const app = express();
 
@@ -17,6 +18,9 @@ app.use('/api/auth', authRoutes);
 // app.use('/api/user/', appointmentRoutes)
 app.use('/api/patients', patientRoutes);
 
+
+
+app.use('/api/lab-reports', labReportRoutes);
 
 app.use('/api/doctors', doctorRoutes);
 
