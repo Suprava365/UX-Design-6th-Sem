@@ -1,0 +1,117 @@
+{
+  "info": {
+    "_postman_id": "8b7f5d7e-2a11-4c90-9f33-1b1f0eac1111",
+    "name": "Clinic Management - Staff API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Create Staff (Admin)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{login_token}}",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Sarah Wilson\",\n  \"jobRole\": \"Nurse\",\n  \"department\": \"Emergency\",\n  \"status\": \"active\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/staff",
+          "host": ["{{base_url}}"],
+          "path": ["api", "staff"]
+        }
+      }
+    },
+    {
+      "name": "Get All Staff (Admin / Staff)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{login_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/staff",
+          "host": ["{{base_url}}"],
+          "path": ["api", "staff"]
+        }
+      }
+    },
+    {
+      "name": "Get Staff By ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{login_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/staff/{{staff_id}}",
+          "host": ["{{base_url}}"],
+          "path": ["api", "staff", "{{staff_id}}"]
+        }
+      }
+    },
+    {
+      "name": "Update Staff (Admin)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{login_token}}",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"status\": \"on_leave\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/staff/{{staff_id}}",
+          "host": ["{{base_url}}"],
+          "path": ["api", "staff", "{{staff_id}}"]
+        }
+      }
+    },
+    {
+      "name": "Delete Staff (Admin)",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{login_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/staff/{{staff_id}}",
+          "host": ["{{base_url}}"],
+          "path": ["api", "staff", "{{staff_id}}"]
+        }
+      }
+    }
+  ]
+}
