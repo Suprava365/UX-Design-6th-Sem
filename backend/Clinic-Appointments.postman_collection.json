@@ -1,0 +1,47 @@
+{
+  "info": {
+    "name": "Clinic Management - Appointment API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Create Appointment",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token}}" },
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"doctorId\": \"{{doctorId}}\",\n  \"patient\": {\n    \"name\": \"Suprava Giri\",\n    \"email\": \"suprava@gmail.com\",\n    \"phone\": \"555-0101\"\n  },\n  \"startAt\": \"2024-01-35T11:00:00Z\",\n  \"endAt\": \"2024-01-35T11:30:00Z\",\n  \"notes\": \"Follow-up visit\"\n}"
+        },
+        "url": "{{base_url}}/api/appointments"
+      }
+    },
+    {
+      "name": "Get All Appointments",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "url": "{{base_url}}/api/appointments"
+      }
+    },
+    {
+      "name": "Update Appointment Status",
+      "request": {
+        "method": "PUT",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{ \"status\": \"completed\" }"
+        },
+        "url": "{{base_url}}/api/appointments/{{appointmentId}}/status"
+      }
+    }
+  ]
+}

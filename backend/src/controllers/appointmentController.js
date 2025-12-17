@@ -1,162 +1,183 @@
-const mongoose = require('mongoose');
 const Appointment = require('../models/Appointment');
-const Doctor = require('../models/Doctor');
-const Patient = require('../models/patient');
-const { createSchema } = require('../validators/appointmentValidator');
+const Patient = require('../models/Patient');
+const { createSchema } = require('../models/appointmentValidator');
 
-async function isDoctorAvailable(doctorId, startAt, endAt, excludeAppointmentId = null) {
-  const query = {
-    doctorId: mongoose.Types.ObjectId(doctorId),
-    status: 'scheduled',
-    $or: [
-      { startAt: { $lt: endAt }, endAt: { $gt: startAt } }
-    ]
-  };
-  if (excludeAppointmentId) query._id = { $ne: mongoose.Types.ObjectId(excludeAppointmentId) };
-  const overlapping = await Appointment.findOne(query).lean();
-  return !overlapping;
-}
 
-async function createAppointment(req, res) {
-  try {
-    const { error, value } = createSchema.validate(req.body);
-    if (error) return res.status(400).json({ error: error.message });
+// Create appointment
+// exports.createAppointment = async (req, res) => {
+//   const { error, value } = createSchema.validate(req.body);
+//   if (error) {
+//     return res.status(400).json({ message: error.details[0].message });
+//   }
 
-    const { doctorId, patient, startAt, endAt, notes } = value;
+//   const { doctorId, patient, startAt, endAt, notes } = value;
 
-    // Ensure doctor exists
-    const doctor = await Doctor.findById(doctorId);
-    if (!doctor) return res.status(404).json({ error: 'Doctor not found' });
+//   // create or reuse patient
+//   let existingPatient = await Patient.findOne({ email: patient.email });
+//   if (!existingPatient) {
+//     existingPatient = await Patient.create(patient);
+//   }
 
-    // Check availability
-    const available = await isDoctorAvailable(doctorId, new Date(startAt), new Date(endAt));
-    if (!available) return res.status(409).json({ error: 'Doctor not available at requested time' });
+//   // check overlapping appointments
+//   const conflict = await Appointment.findOne({
+//     doctorId,
+//     $or: [
+//       { startAt: { $lt: endAt, $gte: startAt } },
+//       { endAt: { $lte: endAt, $gt: startAt } }
+//     ]
+//   });
 
-    // Create or find patient (dedupe by email then phone)
-    let patientRecord = null;
-    if (patient.email) patientRecord = await Patient.findOne({ email: patient.email });
-    if (!patientRecord && patient.phone) patientRecord = await Patient.findOne({ phone: patient.phone });
-    if (!patientRecord) patientRecord = await Patient.create(patient);
+//   if (conflict) {
+//     return res.status(409).json({ message: 'Doctor is not available at this time' });
+//   }
 
-    const appointment = await Appointment.create({
-      doctorId: doctor._id,
-      patientId: patientRecord._id,
-      startAt,
-      endAt,
-      notes
+//   const appointment = await Appointment.create({
+//     doctorId,
+//     patientId: existingPatient._id,
+//     startAt,
+//     endAt,
+//     notes
+//   });
+
+//   res.status(201).json(appointment);
+// };
+
+
+// Create appointment
+exports.createAppointment = async (req, res) => {
+  // 1️⃣ Validate request body
+  const { error, value } = createSchema.validate(req.body);
+  if (error) {
+    return res.status(400).json({
+      message: error.details[0].message
     });
-
-    // populate for response
-    await appointment.populate('doctorId').populate('patientId');
-
-    return res.status(201).json({ appointment });
-  } catch (err) {
-    console.error('createAppointment error:', err);
-    return res.status(500).json({ error: 'Internal server error' });
   }
-}
 
-async function listAppointments(req, res) {
-  try {
-    const { doctorId, patientId, from, to, status } = req.query;
-    const filter = {};
+  // 2️⃣ Extract validated data
+  const {
+    doctorId,
+    patient,
+    date,
+    startTime,
+    endTime,
+    notes
+  } = value;
 
-    if (doctorId) filter.doctorId = doctorId;
-    if (patientId) filter.patientId = patientId;
-    if (status) filter.status = status;
-    if (from || to) {
-      filter.startAt = {};
-      if (from) filter.startAt.$gte = new Date(from);
-      if (to) filter.startAt.$lte = new Date(to);
-    }
+  // 3️⃣ Build Date objects (❌ NO Z HERE)
+  const startAt = new Date(`${date}T${startTime}:00`);
+  const endAt = new Date(`${date}T${endTime}:00`);
 
-    const appointments = await Appointment.find(filter)
-      .populate('doctorId')
-      .populate('patientId')
-      .sort({ startAt: 1 })
-      .lean();
-
-    return res.json({ appointments });
-  } catch (err) {
-    console.error('listAppointments error:', err);
-    return res.status(500).json({ error: 'Internal server error' });
+  // 4️⃣ Safety check
+  if (isNaN(startAt.getTime()) || isNaN(endAt.getTime())) {
+    return res.status(400).json({
+      message: 'Invalid date or time format'
+    });
   }
-}
 
-async function getAppointment(req, res) {
-  try {
-    const { id } = req.params;
-    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(400).json({ error: 'Invalid id' });
-
-    const appointment = await Appointment.findById(id).populate('doctorId').populate('patientId').lean();
-    if (!appointment) return res.status(404).json({ error: 'Appointment not found' });
-
-    return res.json({ appointment });
-  } catch (err) {
-    console.error('getAppointment error:', err);
-    return res.status(500).json({ error: 'Internal server error' });
+  // 5️⃣ Find or create patient
+  let existingPatient = await Patient.findOne({ email: patient.email });
+  if (!existingPatient) {
+    existingPatient = await Patient.create(patient);
   }
-}
 
-async function updateAppointment(req, res) {
-  try {
-    const { id } = req.params;
-    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(400).json({ error: 'Invalid id' });
+  // 6️⃣ Check doctor availability
+  const conflict = await Appointment.findOne({
+    doctorId,
+    $or: [
+      { startAt: { $lt: endAt, $gte: startAt } },
+      { endAt: { $lte: endAt, $gt: startAt } }
+    ]
+  });
 
-    const appointment = await Appointment.findById(id);
-    if (!appointment) return res.status(404).json({ error: 'Appointment not found' });
-
-    const { startAt, endAt, status, notes } = req.body;
-
-    if (startAt && endAt) {
-      const available = await isDoctorAvailable(
-        appointment.doctorId,
-        new Date(startAt),
-        new Date(endAt),
-        appointment._id
-      );
-      if (!available) return res.status(409).json({ error: 'Doctor not available at requested time' });
-
-      appointment.startAt = startAt;
-      appointment.endAt = endAt;
-    }
-
-    if (status) appointment.status = status;
-    if (typeof notes !== 'undefined') appointment.notes = notes;
-
-    await appointment.save();
-    await appointment.populate('doctorId').populate('patientId');
-
-    return res.json({ appointment });
-  } catch (err) {
-    console.error('updateAppointment error:', err);
-    return res.status(500).json({ error: 'Internal server error' });
+  if (conflict) {
+    return res.status(409).json({
+      message: 'Doctor is not available at this time'
+    });
   }
-}
 
-async function cancelAppointment(req, res) {
-  try {
-    const { id } = req.params;
-    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(400).json({ error: 'Invalid id' });
+  // 7️⃣ Create appointment
+  const appointment = await Appointment.create({
+    doctorId,
+    patientId: existingPatient._id,
+    startAt,
+    endAt,
+    notes
+  });
 
-    const appointment = await Appointment.findById(id);
-    if (!appointment) return res.status(404).json({ error: 'Appointment not found' });
+  // 8️⃣ Respond
+  res.status(201).json(appointment);
+};
 
-    appointment.status = 'cancelled';
-    await appointment.save();
-    await appointment.populate('doctorId').populate('patientId');
 
-    return res.json({ appointment });
-  } catch (err) {
-    console.error('cancelAppointment error:', err);
-    return res.status(500).json({ error: 'Internal server error' });
+// Admin / Staff: get all appointments
+exports.getAppointments = async (req, res) => {
+  const appointments = await Appointment.find()
+    .populate('patientId', 'name email phone')
+    .populate('doctorId', 'name specialty')
+    .sort({ startAt: 1 });
+
+  res.json(appointments);
+};
+
+// Get appointments by patient
+exports.getAppointmentsByPatient = async (req, res) => {
+  const appointments = await Appointment.find({
+    patientId: req.params.patientId
+  })
+    .populate('doctorId', 'name specialty')
+    .sort({ startAt: 1 });
+
+  res.json(appointments);
+};
+
+// Get appointments by doctor
+exports.getAppointmentsByDoctor = async (req, res) => {
+  const appointments = await Appointment.find({
+    doctorId: req.params.doctorId
+  })
+    .populate('patientId', 'name email')
+    .sort({ startAt: 1 });
+
+  res.json(appointments);
+};
+
+// Update appointment status
+exports.updateAppointmentStatus = async (req, res) => {
+  const { status } = req.body || {};
+
+  if (!status) {
+    return res.status(400).json({
+      message: 'Status is required'
+    });
   }
-}
 
-module.exports = {
-  createAppointment,
-  listAppointments,
-  getAppointment,
-  updateAppointment,
-  cancelAppointment
+  if (!['scheduled', 'completed', 'cancelled'].includes(status)) {
+    return res.status(400).json({
+      message: 'Invalid status value'
+    });
+  }
+
+  const appointment = await Appointment.findById(req.params.id);
+
+  if (!appointment) {
+    return res.status(404).json({
+      message: 'Appointment not found'
+    });
+  }
+
+  appointment.status = status;
+  await appointment.save();
+
+  res.json(appointment);
+};
+
+// Cancel appointment
+exports.cancelAppointment = async (req, res) => {
+  const appointment = await Appointment.findByIdAndUpdate(
+    req.params.id,
+    { status: 'cancelled' },
+    { new: true }
+  );
+
+  res.json(appointment);
 };
