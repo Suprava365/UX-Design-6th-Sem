@@ -1,0 +1,177 @@
+{
+  "info": {
+    "_postman_id": "c1b9a1c3-3a21-4a2b-9a55-77c8d5a3b001",
+    "name": "Clinic Management - Settings API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Get Hospital Settings (Admin)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{login_token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/settings/hospital",
+          "host": ["{{base_url}}"],
+          "path": ["api", "settings", "hospital"]
+        }
+      }
+    },
+    {
+      "name": "Update Hospital Settings (Admin)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{login_token}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"hospitalName\": \"Medicity\",\n  \"email\": \"medicity@gmail.com\",\n  \"phone\": \"+91-9999999999\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/settings/hospital",
+          "host": ["{{base_url}}"],
+          "path": ["api", "settings", "hospital"]
+        }
+      }
+    },
+    {
+      "name": "Get My Profile",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{login_token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/settings/me",
+          "host": ["{{base_url}}"],
+          "path": ["api", "settings", "me"]
+        }
+      }
+    },
+    {
+      "name": "Update My Profile",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{login_token}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"John Doe\",\n  \"phone\": \"+1 (555) 123-4567\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/settings/me",
+          "host": ["{{base_url}}"],
+          "path": ["api", "settings", "me"]
+        }
+      }
+    },
+    {
+      "name": "Change Password",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{login_token}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"currentPassword\": \"oldpassword\",\n  \"newPassword\": \"newpassword123\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/settings/change-password",
+          "host": ["{{base_url}}"],
+          "path": ["api", "settings", "change-password"]
+        }
+      }
+    },
+    {
+      "name": "Get Notification Settings",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{login_token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/settings/notifications",
+          "host": ["{{base_url}}"],
+          "path": ["api", "settings", "notifications"]
+        }
+      }
+    },
+    {
+      "name": "Update Notification Settings",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{login_token}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"emailNotifications\": true,\n  \"appointmentReminders\": true,\n  \"labReportUpdates\": false,\n  \"medicalAlerts\": true\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/settings/notifications",
+          "host": ["{{base_url}}"],
+          "path": ["api", "settings", "notifications"]
+        }
+      }
+    },
+    {
+      "name": "Delete My Account",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{login_token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/settings/me",
+          "host": ["{{base_url}}"],
+          "path": ["api", "settings", "me"]
+        }
+      }
+    }
+  ]
+}

@@ -9,6 +9,9 @@ const labReportRoutes = require('./routes/labReports');
 const appointmentRoutes = require('./routes/appointments');
 const staffRoutes = require('./routes/staff');
 
+const settingsRoutes = require('./routes/settings');
+
+
 
 
 const app = express();
@@ -29,6 +32,8 @@ app.use('/api/lab-reports', labReportRoutes);
 app.use('/api/doctors', doctorRoutes);
 
 app.use('/api/staff', staffRoutes);
+
+app.use('/api/settings', settingsRoutes);
 
 app.get('/', (req, res) => res.send('Clinic API is running'));
 app.use(errorHandler);
