@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function UserAppointments() {
+export default function UserAppointments() { 
   return (
     <div className="flex h-screen bg-[#e3f0f6]">
 
