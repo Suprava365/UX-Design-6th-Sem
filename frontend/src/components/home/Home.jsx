@@ -1,27 +1,11 @@
 import React from "react";
+import Navbar from "../Navbar";
 
 export default function Home() {
   return (
     <div className="bg-[#e6f1f5] min-h-screen">
 
-      {/* NAVBAR */}
-      <nav className="flex justify-between items-center px-16 py-4 bg-[#e6f1f5]">
-        <h1 className="font-bold text-lg">SmartLite</h1>
-        <ul className="flex gap-6 text-sm">
-          <li className="cursor-pointer">Home</li>
-          <li className="cursor-pointer">About</li>
-          <li className="cursor-pointer">Service</li>
-          <li className="cursor-pointer">Contact Us</li>
-        </ul>
-        <div className="flex gap-3">
-          <button className="bg-[#7db9da] px-4 py-2 rounded-lg text-sm">
-            Dashboard
-          </button>
-          <button className="bg-[#7db9da] px-4 py-2 rounded-lg text-sm">
-            Book Appointment
-          </button>
-        </div>
-      </nav>
+      <Navbar />
 
       {/* HERO SECTION */}
       <section className="flex px-16 py-12 gap-10 items-center">

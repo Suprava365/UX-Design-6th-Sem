@@ -5,6 +5,9 @@ import Home from './components/home/Home'
 import Login from './components/login/Login'
 import Register from './components/register/Register'
 import {Routes , Route} from 'react-router-dom'
+import Service from './components/service/Service'
+import Contact from './components/contact/Contact'
+import UserDashboard from './components/user dashboard/User_dashboard'
 function App() {
 
 
@@ -16,7 +19,16 @@ function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/about" element={<About />} />
-    </Routes>
+      <Route path="/service" element={<Service />} />
+      <Route path="/contact" element={<Contact />} />
+      <Route path="/user_dashboard" element={<UserDashboard />} />
+
+
+      {/* service page banyesi yp page ma yha regioster gareko khai tw ? */}
+      
+      
+      
+          </Routes>
     
     </>
   )
