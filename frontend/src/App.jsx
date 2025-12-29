@@ -22,6 +22,9 @@ function App() {
       <Route path="/service" element={<Service />} />
       <Route path="/contact" element={<Contact />} />
       <Route path="/user_dashboard" element={<UserDashboard />} />
+      <Route path="/user_appointment" element={<User_appointment/>} />
+      <Route path="/user_history" element={<User_history/>} />
+
 
 
       {/* service page banyesi yp page ma yha regioster gareko khai tw ? */}
