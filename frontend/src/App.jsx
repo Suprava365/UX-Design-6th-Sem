@@ -23,6 +23,7 @@ import AddNewPatient from './components/admin add new patient/AddNewPatient'
 import AddNewAppointment from './components/add new appointment/AddNewAppointment'
 import AddNewDoctor from './components/add new doctor/AddNewDoctor'
 import AddNewStaff from './components/add new staff/AddNewStaff'
+import AddLabReport from './components/add new lab report/AddLabReport'
 
 
 
@@ -55,6 +56,7 @@ function App() {
       <Route path="/add_new_appointment" element={<AddNewAppointment/>} />
         <Route path="/add_new_doctor" element={<AddNewDoctor/>} />
         <Route path="/add_new_staff" element={<AddNewStaff/>} />
+        <Route path="/add_new_labreport" element={<AddLabReport/>} />
       {/* //routes push  */}
       
       
