@@ -66,7 +66,7 @@ export default function UserHistory() {
         {/* HISTORY LIST */}
         <div className="space-y-6">
 
-          {/* ITEM 1 */}
+          
           <div className="bg-white rounded-xl p-6 flex justify-between items-center">
             <div className="flex gap-4 items-center">
               <span className="bg-[#d7e7ef] px-4 py-1 rounded-full text-sm">
