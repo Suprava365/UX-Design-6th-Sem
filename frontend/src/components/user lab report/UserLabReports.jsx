@@ -65,7 +65,7 @@ export default function UserLabReports() {
           </button>
         </div>
 
-        {/* REPORT LIST */}
+        
         <div className="space-y-5">
 
           {/* REPORT CARD */}
