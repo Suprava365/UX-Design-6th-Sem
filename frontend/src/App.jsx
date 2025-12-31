@@ -20,6 +20,7 @@ import AdminStaff from './components/admin staff/AdminStaff'
 import AdminLabReports from './components/admin lab report/AdminLabReports'
 import AdminSettings from './components/admin setting/AdminSettings'
 import AddNewPatient from './components/admin add new patient/AddNewPatient'
+import AddNewAppointment from './components/add new appointment/AddNewAppointment'
 
 
 
@@ -49,6 +50,7 @@ function App() {
        <Route path="/admin_lab_report" element={<AdminLabReports/>} />
        <Route path="/admin_setting" element={<AdminSettings/>} />
        <Route path="/add_new_patient" element={<AddNewPatient/>} />
+        <Route path="/add_new_appointment" element={<AddNewAppointment/>} />
       {/* //routes push  */}
       
       
