@@ -125,7 +125,7 @@ export default function UserDashboard() {
                   <p className="text-sm text-gray-600">{report.date}</p>
                 </div>
                 <span className="bg-green-200 px-4 py-1 rounded-lg text-sm">
-                  Ready
+                  Readygit
                 </span>
               </div>
             ))}
