@@ -13,7 +13,7 @@ export default function UserSettings() {
             <p className="text-sm opacity-80">Medical</p>
           </div>
 
-          
+          {/* Menu */}
           <nav className="mt-6 text-sm">
             {[
               "Overview",

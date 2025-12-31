@@ -68,7 +68,7 @@ export default function AddNewPatient() {
           </div>
         </div>
 
-        {/* BUTTONS */}
+        
         <div className="flex justify-between mt-8">
           <button className="bg-[#7db9da] px-6 py-2 rounded-lg text-white">
             Cancel
