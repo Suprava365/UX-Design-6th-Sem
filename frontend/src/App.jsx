@@ -22,6 +22,7 @@ import AdminSettings from './components/admin setting/AdminSettings'
 import AddNewPatient from './components/admin add new patient/AddNewPatient'
 import AddNewAppointment from './components/add new appointment/AddNewAppointment'
 import AddNewDoctor from './components/add new doctor/AddNewDoctor'
+import AddNewStaff from './components/add new staff/AddNewStaff'
 
 
 
@@ -51,8 +52,9 @@ function App() {
        <Route path="/admin_lab_report" element={<AdminLabReports/>} />
        <Route path="/admin_setting" element={<AdminSettings/>} />
        <Route path="/add_new_patient" element={<AddNewPatient/>} />
-        <Route path="/add_new_appointment" element={<AddNewAppointment/>} />
+      <Route path="/add_new_appointment" element={<AddNewAppointment/>} />
         <Route path="/add_new_doctor" element={<AddNewDoctor/>} />
+        <Route path="/add_new_staff" element={<AddNewStaff/>} />
       {/* //routes push  */}
       
       
