@@ -1,6 +1,58 @@
-import React from "react";
+import React, { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function Register() {
+  const navigate = useNavigate();
+
+  const [form, setForm] = useState({
+    name: "",
+    phone: "",
+    email: "",
+    password: "",
+    agree: false,
+  });
+
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setForm({
+      ...form,
+      [name]: type === "checkbox" ? checked : value,
+    });
+  };
+
+  const handleRegister = async () => {
+    if (!form.agree) {
+      setError("Please accept Terms & Conditions");
+      return;
+    }
+
+    try {
+      setLoading(true);
+      setError("");
+
+      await axios.post("/api/auth/register", {
+        name: form.name,
+        phone: form.phone,
+        email: form.email,
+        password: form.password,
+      });
+
+      // ✅ SUCCESS → redirect to login
+      navigate("/login");
+
+    } catch (err) {
+      setError(
+        err.response?.data?.message || "Registration failed"
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-white">
       {/* CARD */}
@@ -16,6 +68,8 @@ export default function Register() {
           <label className="mb-1">Full Name</label>
           <input
             type="text"
+            name="name"
+            onChange={handleChange}
             className="h-11 mb-4 px-4 rounded-lg bg-white outline-none"
           />
 
@@ -23,6 +77,8 @@ export default function Register() {
           <label className="mb-1">Phone Number</label>
           <input
             type="text"
+            name="phone"
+            onChange={handleChange}
             className="h-11 mb-4 px-4 rounded-lg bg-white outline-none"
           />
 
@@ -30,6 +86,8 @@ export default function Register() {
           <label className="mb-1">Email</label>
           <input
             type="email"
+            name="email"
+            onChange={handleChange}
             className="h-11 mb-4 px-4 rounded-lg bg-white outline-none"
           />
 
@@ -37,24 +95,42 @@ export default function Register() {
           <label className="mb-1">Password</label>
           <input
             type="password"
+            name="password"
+            onChange={handleChange}
             className="h-11 mb-4 px-4 rounded-lg bg-white outline-none"
           />
 
           {/* Terms */}
-          <div className="flex items-center gap-2 text-sm mb-6">
-            <input type="checkbox" />
+          <div className="flex items-center gap-2 text-sm mb-4">
+            <input
+              type="checkbox"
+              name="agree"
+              onChange={handleChange}
+            />
             <span>
               I agree to the Terms & Conditions and Privacy Policy
             </span>
           </div>
 
+          {/* ERROR */}
+          {error && (
+            <p className="text-red-500 text-sm mb-3">{error}</p>
+          )}
+
           {/* Register Button */}
-          <button className="mx-auto bg-[#7db9da] w-44 h-10 rounded-lg mb-3">
-            Register Now
+          <button
+            onClick={handleRegister}
+            disabled={loading}
+            className="mx-auto bg-[#7db9da] w-44 h-10 rounded-lg mb-3 disabled:opacity-50"
+          >
+            {loading ? "Registering..." : "Register Now"}
           </button>
 
           {/* Login Link */}
-          <p className="text-center text-sm underline mb-6 cursor-pointer">
+          <p
+            onClick={() => navigate("/login")}
+            className="text-center text-sm underline mb-6 cursor-pointer"
+          >
             Already have an account ? Login
           </p>
 
@@ -68,7 +144,7 @@ export default function Register() {
           {/* Social Buttons */}
           <div className="flex justify-center gap-6">
             <button className="flex items-center gap-2 bg-[#7db9da] px-4 py-2 rounded-lg">
-              <span>Register with Google</span>
+              Register with Google
               <img
                 src="https://www.svgrepo.com/show/475656/google-color.svg"
                 className="w-5 h-5"
@@ -77,7 +153,7 @@ export default function Register() {
             </button>
 
             <button className="flex items-center gap-2 bg-[#7db9da] px-4 py-2 rounded-lg">
-              <span>Register with Facebook</span>
+              Register with Facebook
               <img
                 src="https://www.svgrepo.com/show/475647/facebook-color.svg"
                 className="w-5 h-5"
@@ -87,11 +163,12 @@ export default function Register() {
           </div>
         </div>
 
-        {/* RIGHT SIDE IMAGE */}
+        {/* RIGHT IMAGE */}
         <div className="w-1/2">
           <img
             src="https://external-preview.redd.it/integrating-azure-ad-b2c-in-sitecore-xm-cloud-v0-uKvXtEcaIKIlMWWQhZ2DXIJOQjwk43E25GTQ0t1TpeA.jpg?width=640&crop=smart&auto=webp&s=922c41127ca1689aace6f2671f13251a2eb46ed8"
             className="w-full h-full object-cover"
+            alt="register"
           />
         </div>
 

@@ -7,23 +7,24 @@ import Register from './components/register/Register'
 import {Routes , Route} from 'react-router-dom'
 import Service from './components/service/Service'
 import Contact from './components/contact/Contact'
-import UserDashboard from './components/user dashboard/User_dashboard'
-import UserAppointments from './components/user appointment/User_appointment'
-import UserHistory from './components/user history/User_history'
-import UserLabReports from './components/user lab report/UserLabReports'
-import UserSettings from './components/user setting/UserSettings'
-import AdminDashboard from './components/admin dashboard/AdminDashboard'
-import AdminPatients from './components/admin patient/AdminPatients'
-import AdminAppointments from './components/admin appointment/AdminAppointments'
-import AdminDoctors from './components/admin doctor/AdminDoctors'
-import AdminStaff from './components/admin staff/AdminStaff'
-import AdminLabReports from './components/admin lab report/AdminLabReports'
-import AdminSettings from './components/admin setting/AdminSettings'
-import AddNewPatient from './components/admin add new patient/AddNewPatient'
-import AddNewAppointment from './components/add new appointment/AddNewAppointment'
-import AddNewDoctor from './components/add new doctor/AddNewDoctor'
-import AddNewStaff from './components/add new staff/AddNewStaff'
-import AddLabReport from './components/add new lab report/AddLabReport'
+import UserDashboard from './components/user/user dashboard/User_dashboard'
+import UserAppointments from './components/user/user appointment/User_appointment'
+import UserHistory from './components/user/user history/User_history'
+import UserLabReports from './components/user/user lab report/UserLabReports'
+import UserSettings from './components/user/user setting/UserSettings'
+
+
+import AdminLayout from './layout/AdminLayout'
+import AdminOverview from './pages/admin/AdminOverview'
+import AdminPatients from './pages/admin/AdminPatients'
+import AdminDoctors from './pages/admin/AdminDoctors'
+import AdminStaff from './pages/admin/AdminStaff'
+import AdminLabReports from './pages/admin/AdminLabReports'
+import AdminSettings from './pages/admin/AdminSettings'
+import AdminAppointments from './pages/admin/AdminAppointments'
+import { AuthProvider } from './context/AuthContext'
+import ProtectedRoute from './routes/ProtectedRoute'
+import UserLayout from './layout/UserLayout'
 
 
 
@@ -45,7 +46,7 @@ function App() {
       <Route path="/user_history" element={<UserHistory/>} />
       <Route path="/lab_report" element={<UserLabReports/>} />
       <Route path="/user_settings" element={<UserSettings/>} />
-      <Route path="/admin_dashboard" element={<AdminDashboard/>} />
+      {/* <Route path="/admin_dashboard" element={<AdminDashboard/>} />
       <Route path="/admin_patient" element={<AdminPatients/>} />
        <Route path="/admin_appointment" element={<AdminAppointments/>} />
        <Route path="/admin_doctor" element={<AdminDoctors/>} />
@@ -56,7 +57,31 @@ function App() {
       <Route path="/add_new_appointment" element={<AddNewAppointment/>} />
         <Route path="/add_new_doctor" element={<AddNewDoctor/>} />
         <Route path="/add_new_staff" element={<AddNewStaff/>} />
-        <Route path="/add_new_labreport" element={<AddLabReport/>} />
+        <Route path="/add_new_labreport" element={<AddLabReport/>} /> */}
+        {/* <AuthProvider> */}
+
+ <Route path="/admin" element={<AdminLayout />}>
+          <Route index element={<AdminOverview />} />
+          <Route path="patient" element={<AdminPatients />} />
+          <Route path="appointment" element={<AdminAppointments />} />
+          <Route path="doctors" element={<AdminDoctors />} />
+          <Route path="staff" element={<AdminStaff />} />
+          <Route path="lab-reports" element={<AdminLabReports />} />
+          <Route path="settings" element={<AdminSettings />} />
+        </Route>
+
+           {/* <Route element={<ProtectedRoute allowedRole="user" />}> */}
+            <Route path="/user" element={<UserLayout />}>
+              <Route index element={<UserDashboard />} />
+              <Route path="appointments" element={<UserAppointments />} />
+              <Route path="lab-reports" element={<UserLabReports />} />
+              <Route path="history" element={<UserHistory />} />
+
+              <Route path="settings" element={<UserSettings />} />
+            </Route>
+          {/* </Route> */}
+        {/* </AuthProvider> */}
+        
       {/* //routes push  */}
       
       
