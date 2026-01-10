@@ -1,0 +1,167 @@
+{
+  "info": {
+    "name": "Smart Lite - Admin User Management",
+    "_postman_id": "admin-user-crud",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {"key": "base_url", "value": "http://localhost:5000/api"},
+    {"key": "admin_token", "value": ""}
+  ],
+  "item": [
+    {
+      "name": "Create User",
+      "request": {
+        "method": "POST",
+        "header": [
+          {"key": "Authorization", "value": "Bearer {{admin_token}}"},
+          {"key": "Content-Type", "value": "application/json"}
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Test Patient\",\n  \"email\": \"patient@test.com\",\n  \"password\": \"password123\",\n  \"role\": \"patient\",\n  \"phone\": \"+1234567890\",\n  \"address\": \"123 Test St\",\n  \"dateOfBirth\": \"1990-01-01\",\n  \"gender\": \"male\",\n  \"isEmailVerified\": true\n}"
+        },
+        "url": "{{base_url}}/admin/users"
+      }
+    },
+    {
+      "name": "Get All Users",
+      "request": {
+        "method": "GET",
+        "header": [{"key": "Authorization", "value": "Bearer {{admin_token}}"}],
+        "url": "{{base_url}}/admin/users?page=1&limit=10&search=test&role=patient&isActive=true&sortBy=createdAt&order=desc"
+      }
+    },
+    {
+      "name": "Get User By ID",
+      "request": {
+        "method": "GET",
+        "header": [{"key": "Authorization", "value": "Bearer {{admin_token}}"}],
+        "url": "{{base_url}}/admin/users/USER_ID"
+      }
+    },
+    {
+      "name": "Update User",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {"key": "Authorization", "value": "Bearer {{admin_token}}"},
+          {"key": "Content-Type", "value": "application/json"}
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Updated Name\",\n  \"role\": \"doctor\",\n  \"phone\": \"+9876543210\",\n  \"isActive\": true,\n  \"isEmailVerified\": true\n}"
+        },
+        "url": "{{base_url}}/admin/users/USER_ID"
+      }
+    },
+    {
+      "name": "Delete User",
+      "request": {
+        "method": "DELETE",
+        "header": [{"key": "Authorization", "value": "Bearer {{admin_token}}"}],
+        "url": "{{base_url}}/admin/users/USER_ID"
+      }
+    },
+    {
+      "name": "Bulk Create Users",
+      "request": {
+        "method": "POST",
+        "header": [
+          {"key": "Authorization", "value": "Bearer {{admin_token}}"},
+          {"key": "Content-Type", "value": "application/json"}
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"users\": [\n    {\n      \"name\": \"User One\",\n      \"email\": \"user1@test.com\",\n      \"password\": \"password123\",\n      \"role\": \"patient\"\n    },\n    {\n      \"name\": \"User Two\",\n      \"email\": \"user2@test.com\",\n      \"password\": \"password123\",\n      \"role\": \"staff\"\n    }\n  ]\n}"
+        },
+        "url": "{{base_url}}/admin/users/bulk-create"
+      }
+    },
+    {
+      "name": "Bulk Update Users",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {"key": "Authorization", "value": "Bearer {{admin_token}}"},
+          {"key": "Content-Type", "value": "application/json"}
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"userIds\": [\"USER_ID_1\", \"USER_ID_2\"],\n  \"updates\": {\n    \"role\": \"staff\",\n    \"isActive\": true\n  }\n}"
+        },
+        "url": "{{base_url}}/admin/users/bulk-update"
+      }
+    },
+    {
+      "name": "Bulk Delete Users",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {"key": "Authorization", "value": "Bearer {{admin_token}}"},
+          {"key": "Content-Type", "value": "application/json"}
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"userIds\": [\"USER_ID_1\", \"USER_ID_2\"]\n}"
+        },
+        "url": "{{base_url}}/admin/users/bulk-delete"
+      }
+    },
+    {
+      "name": "Export Users",
+      "request": {
+        "method": "GET",
+        "header": [{"key": "Authorization", "value": "Bearer {{admin_token}}"}],
+        "url": "{{base_url}}/admin/users/export?role=patient&isActive=true"
+      }
+    },
+    {
+      "name": "Get User Stats",
+      "request": {
+        "method": "GET",
+        "header": [{"key": "Authorization", "value": "Bearer {{admin_token}}"}],
+        "url": "{{base_url}}/admin/users/stats"
+      }
+    },
+    {
+      "name": "Reset User Password",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {"key": "Authorization", "value": "Bearer {{admin_token}}"},
+          {"key": "Content-Type", "value": "application/json"}
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"password\": \"newpassword123\"\n}"
+        },
+        "url": "{{base_url}}/admin/users/USER_ID/reset-password"
+      }
+    },
+    {
+      "name": "Toggle User Status",
+      "request": {
+        "method": "PATCH",
+        "header": [{"key": "Authorization", "value": "Bearer {{admin_token}}"}],
+        "url": "{{base_url}}/admin/users/USER_ID/toggle-status"
+      }
+    },
+    {
+      "name": "Verify User Email",
+      "request": {
+        "method": "PATCH",
+        "header": [{"key": "Authorization", "value": "Bearer {{admin_token}}"}],
+        "url": "{{base_url}}/admin/users/USER_ID/verify-email"
+      }
+    },
+    {
+      "name": "Get Activity Logs",
+      "request": {
+        "method": "GET",
+        "header": [{"key": "Authorization", "value": "Bearer {{admin_token}}"}],
+        "url": "{{base_url}}/admin/activity-logs?page=1&limit=50&action=ADMIN_CREATE_USER&userId=USER_ID"
+      }
+    }
+  ]
+}

@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const settingsController = require('../controllers/settingsController');
-const { protect, authorize } = require('../middlewares/auth');
+const { protect, authorize } = require('../middleware/auth');
 
 // 🔐 All settings require login
 router.use(protect);

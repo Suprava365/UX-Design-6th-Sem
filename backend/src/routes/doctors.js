@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const doctorController = require('../controllers/doctorController');
-const { protect, authorize } = require('../middlewares/auth');
+const { protect, authorize } = require('../middleware/auth');
 
 // All routes require login
 router.use(protect);

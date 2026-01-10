@@ -1,16 +1,18 @@
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
-const errorHandler = require('./middlewares/errorHandler');
+const errorHandler = require('./middleware/errorHandler');
 const patientRoutes = require('./routes/patients');
-const authRoutes = require('./routes/auth');
+const authRoutes = require('./routes/authRoutes');
 const doctorRoutes = require('./routes/doctors');
 const labReportRoutes = require('./routes/labReports');
 const appointmentRoutes = require('./routes/appointments');
 const staffRoutes = require('./routes/staff');
 
 const settingsRoutes = require('./routes/settings');
+const adminUserRoutes = require('./routes/adminUserRoutes');
 
+require('dotenv').config();
 
 
 
@@ -32,6 +34,9 @@ app.use('/api/lab-reports', labReportRoutes);
 app.use('/api/doctors', doctorRoutes);
 
 app.use('/api/staff', staffRoutes);
+
+
+app.use('/api/admin/users', adminUserRoutes);
 
 app.use('/api/settings', settingsRoutes);
 

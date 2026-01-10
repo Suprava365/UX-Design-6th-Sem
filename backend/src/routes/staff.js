@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const staffController = require('../controllers/staffController');
-const { protect, authorize } = require('../middlewares/auth');
+const { protect, authorize } = require('../middleware/auth');
 
 // 🔐 All staff routes require login
 router.use(protect);

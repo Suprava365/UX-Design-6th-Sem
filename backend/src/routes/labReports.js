@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const labReportController = require('../controllers/labReportController');
-const { protect, authorize } = require('../middlewares/auth');
+const { protect, authorize } = require('../middleware/auth');
 
 // All lab report routes require login
 router.use(protect);

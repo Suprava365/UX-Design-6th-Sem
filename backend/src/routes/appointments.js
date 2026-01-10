@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const appointmentController = require('../controllers/appointmentController');
-const { protect, authorize } = require('../middlewares/auth');
+const { protect, authorize } = require('../middleware/auth');
 
 // all appointment routes require login
 router.use(protect);
